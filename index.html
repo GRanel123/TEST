@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Привет</title>
+    
+    <!-- 1. Загрузка Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        /*
+         * Минимальное центрирование, чтобы текст был по середине
+         * (удалены все стили вроде font-family, font-size, margin и т.д.,
+         * как было запрошено)
+         */
+        body {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Место, куда мы вставим приветствие -->
+    <div id="greeting">Загрузка...</div>
+
+    <script>
+        // Проверяем, загрузился ли объект Telegram Web App
+        if (window.Telegram && window.Telegram.WebApp) {
+            // Инициализируем Web App
+            const tgWebApp = window.Telegram.WebApp;
+            tgWebApp.ready();
+            
+            // Получаем данные пользователя
+            const user = tgWebApp.initDataUnsafe.user;
+            const username = user ? user.username : "неизвестный пользователь";
+
+            // Формируем текст приветствия
+            const greetingText = `Привет, @${username}`;
+            
+            // Вставляем текст в HTML-элемент
+            document.getElementById('greeting').textContent = greetingText;
+
+            // Опционально: можно изменить цвет фона, если нужно,
+            // чтобы соответствовать теме Telegram, но мы оставим его белым по умолчанию.
+            // tgWebApp.expand(); // Расширить Web App на весь экран
+
+        } else {
+            // Если скрипт запускается вне Telegram (например, в браузере),
+            // отображаем заглушку.
+            document.getElementById('greeting').textContent = "Привет, [Тестовый Режим]";
+        }
+    </script>
+</body>
+</html>
+
